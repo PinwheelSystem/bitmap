@@ -16,7 +16,7 @@ for i := 0; i < 8; i++ {
  	binarr := strings.Split(bin, "")
 
  	for _, pix := range binarr {
- 		if pix == "1" { draw(xx, y) }
+ 		if pix == "1" { draw(xx, yy) }
 	 	xx += 1
 	}
 	yy += 1
