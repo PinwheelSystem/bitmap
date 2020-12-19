@@ -12,7 +12,7 @@ import (
 )
 
 type BitmapFont struct {
-	font map[string][]string
+	font map[string]Glyph
 }
 
 type GlyphInfo struct {
@@ -21,11 +21,17 @@ type GlyphInfo struct {
 	X, Y, W, H, Ox, Oy int
 }
 
-func New() BitmapFont {
-	return BitmapFont{font: make(map[string][]string, 94)	}
+type Glyph struct {
+	Data []string
+	Width int
+	Height int
 }
 
-func (b *BitmapFont) Load(filename string) map[string][]string {
+func New() BitmapFont {
+	return BitmapFont{font: make(map[string]Glyph, 94)	}
+}
+
+func (b *BitmapFont) Load(filename string) map[string]Glyph {
 	file, _ := os.Open(filename)
 	image, _, _ := image.Decode(file)
 	fontdescraw, _ := ioutil.ReadFile(strings.Split(filename, ".")[0]+".json")
@@ -56,7 +62,7 @@ func (b *BitmapFont) Load(filename string) map[string][]string {
 			glyph[y] = binrep
 			binrep = ""
 		}
-		b.font[c] = glyph
+		b.font[c] = Glyph{glyph, fontdesc[idx].W, fontdesc[idx].H}
 	}
 	return b.font
 }
