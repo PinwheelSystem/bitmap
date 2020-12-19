@@ -6,13 +6,16 @@ A glyph is an array of binary strings, where `1` represents an on pixel, and a `
 
 So, to draw a glyph iterate through `font[glyph]`, like:
 ```golang
+bm := bitmap.New()
+font := bm.Load("font.png")
 x := 0
 y := 0
 	
 xx := x
 yy := y
-for i := 0; i < 8; i++ {
- 	bin := font[glyph][i] // Gets a line: a glyph is 8x8
+ch := font[glyph]
+for i := 0; i < ch.Height; i++ {
+ 	bin := ch.Data[i] // Gets a line: a glyph is 8x8
  	binarr := strings.Split(bin, "")
 
  	for _, pix := range binarr {
