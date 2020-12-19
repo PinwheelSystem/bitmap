@@ -40,7 +40,6 @@ import (
 	"strings"
 	"io/ioutil"
 	"encoding/json"
-	"fmt"
 
 	_ "image/png"
 )
