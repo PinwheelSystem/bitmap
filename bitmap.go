@@ -44,13 +44,14 @@ func (b *BitmapFont) Load(filename string) map[string]Glyph {
 
 	characters := " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 	for idx, c := range strings.Split(characters, "") {
-		xoffset := fontdesc[idx].X
-		glyph := make([]string, 8)
+		ch := fontdesc[idx]
+		xoffset := ch.X
+		glyph := make([]string, ch.H + 1)
 		binrep := ""
 		fmt.Println(c)
 
-		for y := 0; y < 8; y++ {
-			for x := 0; x < fontdesc[idx].W; x++ {
+		for y := 0; y < ch.H + 1; y++ {
+			for x := 0; x < ch.W; x++ {
 				_, _, _, a := image.At(xoffset + x, y).RGBA()
 				a = a >> 8
 				if a == 255 {
@@ -60,9 +61,10 @@ func (b *BitmapFont) Load(filename string) map[string]Glyph {
 				}
 			}
 			glyph[y] = binrep
+			fmt.Println(binrep)
 			binrep = ""
 		}
-		b.font[c] = Glyph{glyph, fontdesc[idx].W, fontdesc[idx].H}
+		b.font[c] = Glyph{glyph, ch.W, ch.H + 1}
 	}
 	return b.font
 }
