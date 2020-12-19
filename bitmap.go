@@ -23,8 +23,7 @@ type GlyphInfo struct {
 
 type Glyph struct {
 	Data []string
-	Width int
-	Height int
+	Width, Height, Y int
 }
 
 func New() BitmapFont {
@@ -52,7 +51,7 @@ func (b *BitmapFont) Load(filename string) map[string]Glyph {
 
 		for y := 0; y < ch.H + 1; y++ {
 			for x := 0; x < ch.W; x++ {
-				_, _, _, a := image.At(xoffset + x, y).RGBA()
+				_, _, _, a := image.At(xoffset + x, ch.Y + y).RGBA()
 				a = a >> 8
 				if a == 255 {
 					binrep += "1"
@@ -64,7 +63,7 @@ func (b *BitmapFont) Load(filename string) map[string]Glyph {
 			fmt.Println(binrep)
 			binrep = ""
 		}
-		b.font[c] = Glyph{glyph, ch.W, ch.H + 1}
+		b.font[c] = Glyph{glyph, ch.W, ch.H + 1, ch.Y}
 	}
 	return b.font
 }
